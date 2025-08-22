@@ -17,24 +17,23 @@ module tt_um_example_tommythorn (
 );
 
    // All output pins must be assigned. If not used, assign to 0.
-   assign uo_out[6:0]  = ui_in + uio_in;  // Example: ou_out is the sum of ui_in and uio_in
+   assign uo_out[6:0] = 0;
    assign uio_out = 0;
    assign uio_oe  = 0;
 
    reg [63:0] rf[31:0];
-   reg [4:0]  addr;
-   reg [63:0] data;
+   reg [68:0]  dataaddr;
 
-   assign uo_out[0] = data[63];
+   assign uo_out[0] = dataaddr[68];
 
    always @(posedge clk) begin
       if (ui_in[1])
-	data <= rf[addr];
+	dataaddr[68:5] <= rf[dataaddr[4:0]];
       else if (ui_in[2])
-	rf[addr] <= data;
+	rf[dataaddr[4:0]] <= dataaddr[68:5];
       else
-	{data,addr} <= {data,addr} << 1 | ui_in[0];
+	dataaddr <= {dataaddr[67:0], ui_in[0]};
       if (!rst_n)
-	{data,addr} <= 0;
+	dataaddr <= 0;
    end
 endmodule
