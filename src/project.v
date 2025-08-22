@@ -17,14 +17,16 @@ module tt_um_example_tommythorn (
 );
 
    // All output pins must be assigned. If not used, assign to 0.
-   assign uo_out[6:0] = 0;
    assign uio_out = 0;
    assign uio_oe  = 0;
 
    reg [63:0] rf[31:0];
    reg [68:0]  dataaddr;
 
-   assign uo_out[0] = dataaddr[68];
+   // List all unused inputs to prevent warnings
+   wire _unused = &{ui_in, ena, clk, rst_n, 1'b0};
+
+   assign uo_out = dataaddr[68:61];
 
    always @(posedge clk) begin
       if (ui_in[1])
@@ -32,7 +34,7 @@ module tt_um_example_tommythorn (
       else if (ui_in[2])
 	rf[dataaddr[4:0]] <= dataaddr[68:5];
       else
-	dataaddr <= {dataaddr[67:0], ui_in[0]};
+	dataaddr <= {dataaddr[60:0], uio_in};
       if (!rst_n)
 	dataaddr <= 0;
    end
