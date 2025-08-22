@@ -28,12 +28,14 @@ module tt_um_example_tommythorn (
 
    assign uo_out = dataaddr[68:61];
 
+   always @(*)
+      if (ui_in[0])
+	rf[dataaddr[4:0]] = dataaddr[68:5];
+
    always @(posedge clk) begin
       if (ui_in[1])
 	dataaddr[68:5] <= rf[dataaddr[4:0]];
       else if (ui_in[2])
-	rf[dataaddr[4:0]] <= dataaddr[68:5];
-      else
 	dataaddr <= {dataaddr[60:0], uio_in};
       if (!rst_n)
 	dataaddr <= 0;
