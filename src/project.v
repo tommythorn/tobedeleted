@@ -21,7 +21,7 @@ module tt_um_example_tommythorn (
    assign uio_out = 0;
    assign uio_oe  = 0;
 
-   reg [63:0] rf[4:0];
+   reg [63:0] rf[31:0];
    reg [4:0]  addr;
    reg [63:0] data;
 
