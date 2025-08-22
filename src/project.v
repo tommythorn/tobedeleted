@@ -28,7 +28,7 @@ module tt_um_example_tommythorn (
 
    assign uo_out = dataaddr[68:61];
 
-   always @(*)
+   always_latch
       if (ui_in[0])
 	rf[dataaddr[4:0]] = dataaddr[68:5];
 
